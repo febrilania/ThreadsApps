@@ -1,0 +1,35 @@
+[
+  {
+    "id": 1,
+    "fullname": "Abing",
+    "username": "ubing_13",
+    "content": "jangan lupa makan",
+    "posted_at": "1 h",
+    "picture": "",
+    "image": "https://cms.sehatq.com/public/img/article_img/10-cara-mengajarkan-kebiasaan-makan-yang-baik-pada-anak-1614852962.jpg",
+    "likes_count": 100,
+    "replies_count": 200
+  },
+  {
+    "id": 2,
+    "fullname": "Dias",
+    "username": "Grutul",
+    "content": "jangan lupa mancing",
+    "posted_at": "4 h",
+    "picture": "",
+    "image": "https://i.ytimg.com/vi/KxH6ZqDEzuo/maxresdefault.jpg",
+    "likes_count": 220,
+    "replies_count": 20
+  },
+  {
+    "id": 3,
+    "fullname": "Reno",
+    "username": "Kentung",
+    "content": "jangan lupa mobile legends",
+    "posted_at": "2 h",
+    "picture": "",
+    "image": "https://th.bing.com/th/id/OIP.1tvW-lGP8_jVzaIN9NAqQQHaEK?rs=1&pid=ImgDetMain",
+    "likes_count": 10,
+    "replies_count": 29
+  }
+]
