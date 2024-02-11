@@ -1,4 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
+import { User } from "./User";
+import { Threads } from "./Threads";
 
 @Entity()
 export class Replies {
@@ -10,4 +12,22 @@ export class Replies {
 
   @Column()
   image: string;
+
+  @Column()
+  created_at: Date;
+
+  @Column()
+  created_by: number;
+
+  @Column()
+  updated_at: Date;
+
+  @Column()
+  updated_by: number;
+
+  @ManyToOne(() => User, (user) => user.replies)
+  user: User;
+
+  @ManyToOne(() => Threads, (threads) => threads.replies)
+  threads: Threads;
 }
