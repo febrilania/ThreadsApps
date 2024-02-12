@@ -5,6 +5,7 @@ import {
   ManyToMany,
   ManyToOne,
   OneToMany,
+  CreateDateColumn,
 } from "typeorm";
 import { User } from "./User";
 import { Likes } from "./Likes";
@@ -15,26 +16,14 @@ export class Threads {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ nullable: true })
   content: string;
 
   @Column({ nullable: true })
   image: string;
 
-  @Column()
-  number_of_replies: number;
-
-  @Column()
+  @CreateDateColumn({ type: "timestamp" })
   created_at: Date;
-
-  @Column()
-  created_by: number;
-
-  @Column()
-  updated_at: Date;
-
-  @Column()
-  updated_by: number;
 
   @ManyToOne(() => User, (user) => user.threads)
   user: User;

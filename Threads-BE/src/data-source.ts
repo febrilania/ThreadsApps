@@ -8,7 +8,7 @@ export const AppDataSource = new DataSource({
   port: 5432,
   username: "postgres",
   password: "fedyno@123",
-  database: "threads",
+  database: "threadsapp",
   synchronize: true,
   logging: false,
   entities: ["src/entities/*.ts"],

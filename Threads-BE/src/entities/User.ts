@@ -4,6 +4,7 @@ import {
   Column,
   OneToMany,
   Like,
+  CreateDateColumn,
 } from "typeorm";
 import { Replies } from "./Replies";
 import { Threads } from "./Threads";
@@ -27,23 +28,14 @@ export class User {
   @Column()
   password: string;
 
-  @Column()
+  @Column({ nullable: true })
   photo_profile: string;
 
   @Column({ nullable: true })
   bio: string;
 
-  @Column()
+  @CreateDateColumn({ type: "timestamp" })
   created_at: Date;
-
-  @Column()
-  created_by: number;
-
-  @Column()
-  updated_at: Date;
-
-  @Column()
-  updated_by: number;
 
   @OneToMany(() => Replies, (replies) => replies.user)
   replies: Replies[];
