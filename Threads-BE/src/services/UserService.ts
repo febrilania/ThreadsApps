@@ -6,7 +6,6 @@ import {
   createUserSchema,
   updateUserSchema,
 } from "../utils/validator/UserValidation";
-import { request } from "http";
 
 export default new (class UserService {
   private readonly userRepository: Repository<User> =
@@ -14,7 +13,11 @@ export default new (class UserService {
 
   async find(req: Request, res: Response): Promise<Response> {
     try {
-      const user = await this.userRepository.find();
+      const user = await this.userRepository.find({
+        order: {
+          id: "DESC",
+        },
+      });
       return res.status(200).json(user);
     } catch (error) {
       return res.status(500).json(error);

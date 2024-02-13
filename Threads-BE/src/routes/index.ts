@@ -1,6 +1,7 @@
 import * as express from "express";
 import ThreadsController from "../controllers/ThreadsController";
 import UserController from "../controllers/UserController";
+import RepliesController from "../controllers/RepliesController";
 
 const routes = express.Router();
 
@@ -15,5 +16,8 @@ routes.post("/user", UserController.create);
 routes.patch("/user/:id", UserController.update);
 routes.get("/user/:id", UserController.findOne);
 routes.delete("/user/:id", UserController.delete);
+
+routes.get("/replies", RepliesController.find);
+routes.post("/replies", RepliesController.create);
 
 export default routes;

@@ -12,6 +12,7 @@ import { MdPersonSearch } from "react-icons/md";
 import { GoHeart } from "react-icons/go";
 import { HiHome } from "react-icons/hi";
 import { CgProfile } from "react-icons/cg";
+import { TbLogout2 } from "react-icons/tb";
 const LeftBar: React.FC = () => {
   return (
     <>
@@ -85,8 +86,8 @@ const LeftBar: React.FC = () => {
 
         <GridItem area={"footer"} display={"flex"} alignItems={"end"} pb={5}>
           <Link display={"flex"} alignItems={"center"} gap={3} fontSize={25}>
-            <CgProfile />
-            <Text fontSize={20}>Profile</Text>
+            <TbLogout2 />
+            <Text fontSize={20}>Log Out</Text>
           </Link>
         </GridItem>
       </Grid>

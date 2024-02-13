@@ -13,6 +13,7 @@ import { GoHeartFill } from "react-icons/go";
 import { LiaComment } from "react-icons/lia";
 import { DataDummy } from "../interface/interface";
 import React from "react";
+import { api } from "../libs/api";
 
 export default function ListThreads(props: DataDummy) {
   const [color, setColor] = React.useState<boolean>(true);
@@ -25,6 +26,21 @@ export default function ListThreads(props: DataDummy) {
       setIsLike((prevLike) => prevLike + 1);
     }
   };
+
+  async function getThreads() {
+    const [threads, setThreads] = React.useState<DataDummy[]>([]);
+
+    try {
+      const response = await api.get("/threads");
+      setThreads(response.data);
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  React.useEffect(() => {
+    getThreads();
+  }, []);
 
   return (
     <>
@@ -50,7 +66,7 @@ export default function ListThreads(props: DataDummy) {
             </Box>
             <Flex direction={"column"} gap={"2"}>
               <Text textAlign={"justify"}>{props.content}</Text>
-              <Box maxW={500}>
+              <Box maxW={"85%"}>
                 <img src={props.image} alt="" />
               </Box>
             </Flex>

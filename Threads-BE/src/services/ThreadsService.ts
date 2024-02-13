@@ -76,11 +76,19 @@ import {
 // })();
 
 class ThreadsService {
+  [x: string]: any;
   private readonly threadRepository: Repository<Threads> =
     AppDataSource.getRepository(Threads);
   async find(req: Request, res: Response) {
     try {
-      const threads = await this.threadRepository.find();
+      const threads = await this.threadRepository.find({
+        order: {
+          id: "DESC",
+        },
+        relations: {
+          user: true,
+        },
+      });
       return res.status(200).json(threads);
     } catch (error) {
       console.log(error);
@@ -95,6 +103,9 @@ class ThreadsService {
       const obj = this.threadRepository.create({
         content: value.content,
         image: value.image,
+        user: {
+          id: 1,
+        },
       });
       const threads = await this.threadRepository.save(obj);
       res.status(200).json(threads);
