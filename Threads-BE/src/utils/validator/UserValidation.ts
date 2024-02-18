@@ -13,3 +13,8 @@ export const updateUserSchema = joi.object({
   email: Joi.string().required().email(),
   password: Joi.string().required(),
 });
+
+export const loginUserSchema = joi.object({
+  email: Joi.string().email().required(),
+  password: Joi.string().required(),
+});

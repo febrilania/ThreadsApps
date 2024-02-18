@@ -11,6 +11,7 @@ import {
   createThreadsSchema,
   updateThreadsSchema,
 } from "../utils/validator/threadsValidation";
+import { User } from "../entities/User";
 
 // const ThreadsData = [
 //   {
@@ -76,9 +77,9 @@ import {
 // })();
 
 class ThreadsService {
-  [x: string]: any;
   private readonly threadRepository: Repository<Threads> =
     AppDataSource.getRepository(Threads);
+
   async find(req: Request, res: Response) {
     try {
       const threads = await this.threadRepository.find({
@@ -97,6 +98,7 @@ class ThreadsService {
   async create(req: Request, res: Response) {
     try {
       const data = req.body;
+      const userId = res.locals.loginSession.obj.id;
       const { error, value } = createThreadsSchema.validate(data);
       if (error) return res.status(400).json(error.details[0].message);
 
@@ -104,13 +106,14 @@ class ThreadsService {
         content: value.content,
         image: value.image,
         user: {
-          id: 1,
+          id: userId,
         },
       });
+
       const threads = await this.threadRepository.save(obj);
       res.status(200).json(threads);
     } catch (error) {
-      res.status(500).json(error);
+      res.status(500).json(error.message);
     }
   }
 

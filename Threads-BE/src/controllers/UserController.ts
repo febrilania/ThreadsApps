@@ -21,4 +21,8 @@ export default new (class UserController {
   async delete(req: Request, res: Response) {
     UserService.delete(req, res);
   }
+
+  async login(req: Request, res: Response) {
+    UserService.login(req, res);
+  }
 })();

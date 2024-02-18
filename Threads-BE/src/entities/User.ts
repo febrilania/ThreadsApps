@@ -37,10 +37,14 @@ export class User {
   @CreateDateColumn({ type: "timestamp" })
   created_at: Date;
 
-  @OneToMany(() => Replies, (replies) => replies.user)
+  @OneToMany(() => Replies, (replies) => replies.user, {
+    onDelete: "CASCADE",
+  })
   replies: Replies[];
 
-  @OneToMany(() => Threads, (threads) => threads.user)
+  @OneToMany(() => Threads, (threads) => threads.user, {
+    onDelete: "CASCADE",
+  })
   threads: Threads[];
 
   @OneToMany(() => Following, (following) => following.follower)

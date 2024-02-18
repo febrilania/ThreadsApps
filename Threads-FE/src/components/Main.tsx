@@ -9,14 +9,23 @@ import {
 import { LuImagePlus } from "react-icons/lu";
 import React, { useEffect } from "react";
 import { DataDummy } from "../interface/interface";
-import datajson from "../mocks/data.json";
 import ListThreads from "./ListThreads";
+import { api } from "../libs/api";
 
 const Main: React.FC = () => {
-  const [data, setData] = React.useState<DataDummy[]>([]);
+  const [threads, setThreads] = React.useState<DataDummy[]>([]);
+  async function getThreads() {
+    try {
+      const response = await api.get("/threads");
+      setThreads(response.data);
+    } catch (error) {
+      throw error;
+    }
+  }
   useEffect(() => {
-    setData(datajson);
-  });
+    getThreads();
+  }, []);
+  console.log(threads);
   // console.log(datajson);
 
   return (
@@ -41,12 +50,12 @@ const Main: React.FC = () => {
           </Button>
         </Box>
       </Box>
-      {data.map((data: DataDummy, index: number) => (
+      {threads.map((data: DataDummy, index: number) => (
         <ListThreads
           id={data.id}
           picture={data.picture}
-          username={data.username}
-          fullname={data.fullname}
+          username={data.user?.username}
+          fullname={data.user?.full_name}
           content={data.content}
           likes_count={data.likes_count}
           replies_count={data.replies_count}

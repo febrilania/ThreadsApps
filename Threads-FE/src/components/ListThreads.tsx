@@ -18,6 +18,7 @@ import { api } from "../libs/api";
 export default function ListThreads(props: DataDummy) {
   const [color, setColor] = React.useState<boolean>(true);
   const [isLike, setIsLike] = React.useState<number>(props.likes_count);
+
   const like = () => {
     setColor(color === false);
     if (!color) {
@@ -26,21 +27,6 @@ export default function ListThreads(props: DataDummy) {
       setIsLike((prevLike) => prevLike + 1);
     }
   };
-
-  async function getThreads() {
-    const [threads, setThreads] = React.useState<DataDummy[]>([]);
-
-    try {
-      const response = await api.get("/threads");
-      setThreads(response.data);
-    } catch (error) {
-      throw error;
-    }
-  }
-
-  React.useEffect(() => {
-    getThreads();
-  }, []);
 
   return (
     <>

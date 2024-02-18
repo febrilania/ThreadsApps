@@ -4,8 +4,12 @@ import { User } from "../entities/User";
 import { Request, Response } from "express";
 import {
   createUserSchema,
+  loginUserSchema,
   updateUserSchema,
 } from "../utils/validator/UserValidation";
+import * as bcrypt from "bcrypt";
+import { ADDRGETNETWORKPARAMS } from "dns";
+const jwt = require("jsonwebtoken");
 
 export default new (class UserService {
   private readonly userRepository: Repository<User> =
@@ -29,15 +33,26 @@ export default new (class UserService {
       const data = req.body;
       const { error, value } = createUserSchema.validate(data);
       if (error) return res.status(400).json(error.details[0].message);
+      const hashPassword = await bcrypt.hash(value.password, 10);
 
       const obj = this.userRepository.create({
         full_name: value.full_name,
         username: value.username,
         email: value.email,
-        password: value.password,
+        password: hashPassword,
       });
+      const emailRequire = await this.userRepository.findOne({
+        where: {
+          email: value.email,
+          username: value.username,
+        },
+      });
+
+      if (emailRequire)
+        return res.status(400).json({ message: "email/username sudah ada" });
+
       const user = await this.userRepository.save(obj);
-      res.status(200).json(user);
+      return res.status(200).json(user);
     } catch (error) {
       res.status(500).json(error);
     }
@@ -66,10 +81,11 @@ export default new (class UserService {
       if (data.email) {
         obj.email = data.email;
       }
-
       const user = await this.userRepository.save(obj);
       res.status(200).json(user);
-    } catch (error) {}
+    } catch (error) {
+      return res.status(500).json(error);
+    }
   }
 
   async findOne(req: Request, res: Response) {
@@ -95,6 +111,40 @@ export default new (class UserService {
       res.status(200).json({ message: `account ${user} succesfully deleted` });
     } catch (error) {
       res.status(500).json(error);
+    }
+  }
+
+  async login(req: Request, res: Response): Promise<Response> {
+    try {
+      const data = req.body;
+      const { error, value } = loginUserSchema.validate(data);
+      if (error) return res.status(400).json(error.details[0].message);
+      const user = await this.userRepository.findOne({
+        where: {
+          email: value.email,
+        },
+        select: ["id", "email", "full_name", "username"],
+      });
+      if (!user) res.status(401).json({ message: "email tidak terdaftar" });
+      const validPassword = bcrypt.compare(
+        String(value.password),
+        String(user.password)
+      );
+      if (!validPassword) res.status(401).json({ message: "password salah!" });
+
+      const obj = this.userRepository.create({
+        id: user.id,
+        email: user.email,
+        username: user.username,
+        full_name: user.full_name,
+      });
+
+      const token = jwt.sign({ obj }, "apambuh", {
+        expiresIn: "1h",
+      });
+      res.status(200).json({ succes: true, message: "login berhasil", token });
+    } catch (error) {
+      return res.status(500).json(error);
     }
   }
 })();
