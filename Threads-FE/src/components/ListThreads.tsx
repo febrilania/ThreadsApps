@@ -13,7 +13,6 @@ import { GoHeartFill } from "react-icons/go";
 import { LiaComment } from "react-icons/lia";
 import { DataDummy } from "../interface/interface";
 import React from "react";
-import { api } from "../libs/api";
 
 export default function ListThreads(props: DataDummy) {
   const [color, setColor] = React.useState<boolean>(true);
