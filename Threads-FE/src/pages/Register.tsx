@@ -51,7 +51,7 @@ const Register: React.FC = () => {
             <Center>
               <Text>
                 if you have account,{" "}
-                <Link href="/register" color={"blue.400"}>
+                <Link href="/login" color={"blue.400"}>
                   login here
                 </Link>
               </Text>

@@ -3,6 +3,8 @@ import repliesController from "../controllers/repliesController";
 import ThreadsController from "../controllers/ThreadsController";
 import UserController from "../controllers/UserController";
 import authMiddlewares from "../middlewares/authMiddlewares";
+import LikesController from "../controllers/LikesController";
+import FollowController from "../controllers/FollowController";
 
 const routes = express.Router();
 
@@ -22,5 +24,9 @@ routes.post("/login", UserController.login);
 routes.get("/replies", repliesController.find);
 routes.post("/replies", authMiddlewares.Auth, repliesController.create);
 routes.delete("/replies/:id", authMiddlewares.Auth, repliesController.delete);
+
+routes.post("/likes", authMiddlewares.Auth, LikesController.create);
+
+routes.post("/follow", authMiddlewares.Auth, FollowController.follow);
 
 export default routes;

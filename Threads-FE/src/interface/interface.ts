@@ -21,3 +21,8 @@ export interface Iuser {
   bio?: string;
   created_at?: Date;
 }
+
+export interface Ilogin {
+  email?: string;
+  password?: string;
+}

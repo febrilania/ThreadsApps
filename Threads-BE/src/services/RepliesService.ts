@@ -36,14 +36,15 @@ export default new (class RepliesService {
   async create(req: Request, res: Response): Promise<Response> {
     try {
       const postReply = req.body;
-      const userId = res.locals.loginSession.obj.id;
       const { error, value } = createRepliesSchema.validate(postReply);
       if (error) return res.status(400).json(error.details[0].message);
+      value.user = res.locals.loginSession.obj.id;
 
-      const obj = await this.repliesRepository.create({
+      const obj = this.repliesRepository.create({
         content: value.content,
         image: value.image,
-        user: userId,
+        user: value.user,
+        threads: value.threads,
       });
       const reply = await this.repliesRepository.save(obj);
       res.status(200).json(reply);

@@ -151,8 +151,9 @@ class ThreadsService {
       });
       if (!obj) return res.status(404).json({ message: "id tidak ada" });
       await this.threadRepository.delete({ id });
+      return res.status(200).json({ message: "data berhasil dihapus" });
     } catch (error) {
-      res.status(500).json(error);
+      return res.status(500).json(error);
     }
   }
 

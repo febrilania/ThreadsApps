@@ -7,9 +7,9 @@ import {
   loginUserSchema,
   updateUserSchema,
 } from "../utils/validator/UserValidation";
-import * as bcrypt from "bcrypt";
-import { ADDRGETNETWORKPARAMS } from "dns";
-const jwt = require("jsonwebtoken");
+import bcrypt = require("bcrypt");
+
+import jwt = require("jsonwebtoken");
 
 export default new (class UserService {
   private readonly userRepository: Repository<User> =
@@ -114,37 +114,34 @@ export default new (class UserService {
     }
   }
 
-  async login(req: Request, res: Response): Promise<Response> {
+  async login(req: Request, res: Response): Promise<Response | object> {
     try {
       const data = req.body;
-      const { error, value } = loginUserSchema.validate(data);
-      if (error) return res.status(400).json(error.details[0].message);
-      const user = await this.userRepository.findOne({
+      const checkEmail = await this.userRepository.findOne({
         where: {
-          email: value.email,
+          email: data.email,
         },
-        select: ["id", "email", "full_name", "username"],
       });
-      if (!user) res.status(401).json({ message: "email tidak terdaftar" });
-      const validPassword = bcrypt.compare(
-        String(value.password),
-        String(user.password)
+      if (!checkEmail) {
+        res.status(401).json({ message: "email tidak terdaftar" });
+      }
+      const checkPassword = await bcrypt.compare(
+        data.password,
+        checkEmail.password
       );
-      if (!validPassword) res.status(401).json({ message: "password salah!" });
-
+      if (!checkPassword) {
+        res.status(401).json({ message: "Password Salah" });
+      }
       const obj = this.userRepository.create({
-        id: user.id,
-        email: user.email,
-        username: user.username,
-        full_name: user.full_name,
+        id: checkEmail.id,
+        full_name: checkEmail.full_name,
+        username: checkEmail.username,
+        email: checkEmail.email,
       });
-
-      const token = jwt.sign({ obj }, "apambuh", {
-        expiresIn: "1h",
-      });
-      res.status(200).json({ succes: true, message: "login berhasil", token });
+      const token = jwt.sign({ obj }, "apambuh", { expiresIn: "1h" });
+      return res.status(200).json({ message: "login succes", token });
     } catch (error) {
-      return res.status(500).json(error);
+      res.status(500).json(error);
     }
   }
 })();

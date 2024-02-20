@@ -35,10 +35,10 @@ export default new (class ThreadsController {
     ThreadsService.create(req, res);
   }
   async delete(req: Request, res: Response) {
-    ThreadsService.create(req, res);
+    ThreadsService.delete(req, res);
   }
   async update(req: Request, res: Response) {
-    ThreadsService.create(req, res);
+    ThreadsService.update(req, res);
   }
   async findOne(req: Request, res: Response) {
     ThreadsService.findOne(req, res);
