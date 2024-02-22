@@ -3,6 +3,7 @@ import { Replies } from "../entities/Replies";
 import { AppDataSource } from "../data-source";
 import { Request, Response, json } from "express";
 import { createRepliesSchema } from "../utils/validator/RepliesValidation";
+import cloudinary from "../libs/cloudinary";
 
 export default new (class RepliesService {
   private readonly repliesRepository: Repository<Replies> =
@@ -36,15 +37,22 @@ export default new (class RepliesService {
   async create(req: Request, res: Response): Promise<Response> {
     try {
       const postReply = req.body;
+      const uploadFile = res.locals.filename;
       const { error, value } = createRepliesSchema.validate(postReply);
       if (error) return res.status(400).json(error.details[0].message);
+      cloudinary.upload();
+      const cloudImage = await cloudinary.destination(uploadFile);
       value.user = res.locals.loginSession.obj.id;
 
       const obj = this.repliesRepository.create({
         content: value.content,
-        image: value.image,
-        user: value.user,
-        threads: value.threads,
+        image: cloudImage.image,
+        user: {
+          id: value.user,
+        },
+        threads: {
+          id: value.threads,
+        },
       });
       const reply = await this.repliesRepository.save(obj);
       res.status(200).json(reply);

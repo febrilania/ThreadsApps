@@ -12,6 +12,8 @@ import {
   updateThreadsSchema,
 } from "../utils/validator/threadsValidation";
 import { User } from "../entities/User";
+import UploadFile from "../middlewares/UploadFile";
+import cloudinary from "../libs/cloudinary";
 
 // const ThreadsData = [
 //   {
@@ -99,16 +101,21 @@ class ThreadsService {
     try {
       const data = req.body;
       const userId = res.locals.loginSession.obj.id;
+      const uploadImage = res.locals.filename;
       const { error, value } = createThreadsSchema.validate(data);
       if (error) return res.status(400).json(error.details[0].message);
+      cloudinary.upload();
+      const cloudImage = await cloudinary.destination(uploadImage);
 
       const obj = this.threadRepository.create({
         content: value.content,
-        image: value.image,
+        image: cloudImage.secure_url,
         user: {
           id: userId,
         },
       });
+      console.log(uploadImage);
+      console.log(value.content);
 
       const threads = await this.threadRepository.save(obj);
       res.status(200).json(threads);
@@ -126,13 +133,16 @@ class ThreadsService {
         },
       });
       const data = req.body;
+      const uploadImage = res.locals.filename;
       const { error, value } = updateThreadsSchema.validate(data);
       if (error) return res.status(400).json(error.details[0].message);
+      cloudinary.upload();
+      const cloudImage = await cloudinary.destination(uploadImage);
       if (data.content) {
         obj.content = data.content;
       }
       if (data.image) {
-        obj.image = data.image;
+        obj.image = cloudImage.image;
       }
       const thread = await this.threadRepository.save(obj);
       res.status(200).json(thread);

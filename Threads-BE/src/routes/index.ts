@@ -5,12 +5,18 @@ import UserController from "../controllers/UserController";
 import authMiddlewares from "../middlewares/authMiddlewares";
 import LikesController from "../controllers/LikesController";
 import FollowController from "../controllers/FollowController";
+import UploadFile from "../middlewares/UploadFile";
 
 const routes = express.Router();
 
 routes.get("/threads", ThreadsController.find);
 routes.get("/threads/:id", ThreadsController.findOne);
-routes.post("/threads", authMiddlewares.Auth, ThreadsController.create);
+routes.post(
+  "/threads",
+  authMiddlewares.Auth,
+  UploadFile.upload("image"),
+  ThreadsController.create
+);
 routes.delete("/threads/:id", authMiddlewares.Auth, ThreadsController.delete);
 routes.patch("/threads/:id", authMiddlewares.Auth, ThreadsController.update);
 
