@@ -52,4 +52,38 @@ export default new (class FollowService {
       return res.status(500).json({ error });
     }
   }
+
+  async getFollower(req: Request, res: Response): Promise<Response> {
+    try {
+      const userId = parseInt(req.params.id, 10);
+      const follower = await this.followRepository.find({
+        where: {
+          following: { id: userId },
+        },
+        relations: ["follower"],
+      });
+      return res
+        .status(200)
+        .json({ message: "success get follower", data: follower });
+    } catch (error) {
+      return res.status(500).json(error.message);
+    }
+  }
+
+  async getFollowing(req: Request, res: Response): Promise<Response> {
+    try {
+      const userId = parseInt(req.params.id, 10);
+      const following = await this.followRepository.find({
+        where: {
+          follower: { id: userId },
+        },
+        relations: ["following"],
+      });
+      return res
+        .status(200)
+        .json({ message: "success get following", data: following });
+    } catch (error) {
+      return res.status(500).json(error.message);
+    }
+  }
 })();

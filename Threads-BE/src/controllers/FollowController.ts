@@ -8,4 +8,10 @@ export default new (class FollowController {
   async unfollow(req: Request, res: Response) {
     FollowService.unfollow(req, res);
   }
+  async getFOllower(req: Request, res: Response) {
+    FollowService.getFollower(req, res);
+  }
+  async getFOllowing(req: Request, res: Response) {
+    FollowService.getFollowing(req, res);
+  }
 })();

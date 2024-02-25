@@ -14,7 +14,7 @@ export default new (class RepliesService {
       const id = parseInt(req.params.id, 10);
       if (isNaN(id)) {
         return res.json({
-          message: "Invalid ID provided",
+          message: "Invalid ID",
           error: "Invalid input for type integer",
         });
       }
