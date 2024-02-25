@@ -139,7 +139,7 @@ class ThreadsService {
       cloudinary.upload();
       const cloudImage = await cloudinary.destination(uploadImage);
       if (data.content) {
-        obj.content = data.content;
+        obj.content = value.content;
       }
       if (data.image) {
         obj.image = cloudImage.image;

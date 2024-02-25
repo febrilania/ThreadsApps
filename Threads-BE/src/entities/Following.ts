@@ -15,7 +15,7 @@ export class Following {
   @CreateDateColumn({ type: "timestamp" })
   created_at: Date;
 
-  @ManyToOne(() => User, (user) => user.followings)
+  @ManyToOne(() => User, (user) => user.followers)
   follower: User;
 
   @ManyToOne(() => User, (user) => user.followings)

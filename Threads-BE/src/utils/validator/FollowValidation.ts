@@ -1,6 +1,6 @@
 import Joi = require("joi");
 
 export const followSchema = Joi.object({
-  following: Joi.string().allow(null),
-  follower: Joi.string().allow(null),
+  following: Joi.number().allow(null),
+  follower: Joi.number().allow(null),
 });

@@ -6,8 +6,8 @@ export default new (class RepliesController {
     RepliesService.create(req, res);
   }
 
-  async find(req: Request, res: Response) {
-    RepliesService.find(req, res);
+  async getReplies(req: Request, res: Response) {
+    RepliesService.getReplies(req, res);
   }
 
   async delete(req: Request, res: Response) {

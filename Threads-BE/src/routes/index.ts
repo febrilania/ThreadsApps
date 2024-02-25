@@ -27,12 +27,18 @@ routes.get("/user/:id", UserController.findOne);
 routes.delete("/user/:id", UserController.delete);
 routes.post("/login", UserController.login);
 
-routes.get("/replies", repliesController.find);
-routes.post("/replies", authMiddlewares.Auth, repliesController.create);
+routes.get("/replies/:id", repliesController.getReplies);
+routes.post(
+  "/replies/:id",
+  authMiddlewares.Auth,
+  UploadFile.upload("image"),
+  repliesController.create
+);
 routes.delete("/replies/:id", authMiddlewares.Auth, repliesController.delete);
 
 routes.post("/likes", authMiddlewares.Auth, LikesController.create);
 
 routes.post("/follow", authMiddlewares.Auth, FollowController.follow);
+routes.delete("/unfollow/:id", authMiddlewares.Auth, FollowController.unfollow);
 
 export default routes;

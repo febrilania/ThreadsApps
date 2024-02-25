@@ -114,23 +114,26 @@ export default new (class UserService {
     }
   }
 
-  async login(req: Request, res: Response): Promise<Response | object> {
+  async login(req: Request, res: Response): Promise<Response> {
     try {
       const data = req.body;
+      const { value, error } = loginUserSchema.validate(data);
+      if (error) return res.status(400).json(error.details[0].message);
+
       const checkEmail = await this.userRepository.findOne({
         where: {
-          email: data.email,
+          email: value.email,
         },
       });
       if (!checkEmail) {
-        res.status(401).json({ message: "email tidak terdaftar" });
+        return res.status(401).json({ message: "email tidak terdaftar" });
       }
       const checkPassword = await bcrypt.compare(
-        data.password,
+        value.password,
         checkEmail.password
       );
       if (!checkPassword) {
-        res.status(401).json({ message: "Password Salah" });
+        return res.status(401).json({ message: "Password Salah" });
       }
       const obj = this.userRepository.create({
         id: checkEmail.id,
