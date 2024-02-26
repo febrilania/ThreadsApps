@@ -13,7 +13,7 @@ import { GoHeart } from "react-icons/go";
 import { HiHome } from "react-icons/hi";
 import { CgProfile } from "react-icons/cg";
 import { TbLogin2 } from "react-icons/tb";
-
+import { Link as LinkR } from "react-router-dom";
 const LeftBar: React.FC = () => {
   return (
     <>
@@ -41,7 +41,10 @@ const LeftBar: React.FC = () => {
                 fontSize={25}
               >
                 <HiHome />
-                <Text fontSize={20}>Home</Text>
+                <LinkR to={"/"}>
+                  {" "}
+                  <Text fontSize={20}> Home</Text>
+                </LinkR>
               </Link>
               <Link
                 display={"flex"}
@@ -51,7 +54,10 @@ const LeftBar: React.FC = () => {
                 fontSize={25}
               >
                 <MdPersonSearch />
-                <Text fontSize={20}>Search</Text>
+                <LinkR to={"/search"}>
+                  {" "}
+                  <Text fontSize={20}> Search</Text>
+                </LinkR>
               </Link>
               <Link
                 display={"flex"}
@@ -61,7 +67,10 @@ const LeftBar: React.FC = () => {
                 fontSize={25}
               >
                 <GoHeart />
-                <Text fontSize={20}>Follow</Text>
+                <LinkR to={"/follow"}>
+                  {" "}
+                  <Text fontSize={20}> Follow</Text>
+                </LinkR>
               </Link>
               <Link
                 display={"flex"}
@@ -71,7 +80,10 @@ const LeftBar: React.FC = () => {
                 fontSize={25}
               >
                 <CgProfile />
-                <Text fontSize={20}>Profile</Text>
+                <LinkR to={"/profile"}>
+                  {" "}
+                  <Text fontSize={20}> Profile</Text>
+                </LinkR>
               </Link>
             </ListItem>
           </List>
@@ -94,7 +106,10 @@ const LeftBar: React.FC = () => {
             fontSize={25}
           >
             <TbLogin2 />
-            <Text fontSize={20}>Log In</Text>
+            <LinkR to={"/Login"}>
+              {" "}
+              <Text fontSize={20}> Login</Text>
+            </LinkR>
           </Link>
         </GridItem>
       </Grid>

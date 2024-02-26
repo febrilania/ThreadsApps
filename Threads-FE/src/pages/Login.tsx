@@ -49,9 +49,9 @@ const Login: React.FC = () => {
         <Box
           w={{ lg: "30%", base: "100%" }}
           mx={"auto"}
-          border="1px"
-          borderColor={"grey"}
+          background={"gray.800"}
           p={5}
+          borderRadius={10}
         >
           <form onSubmit={handleSubmit}>
             <FormControl display={"flex"} flexDirection={"column"} gap={4}>

@@ -37,10 +37,10 @@ const RightBar: React.FC = () => {
               position={"relative"}
             />
             <Button
-              left={"30%"}
+              left={"35%"}
               top={2}
               borderRadius={20}
-              background={"gray.500"}
+              background={"gray.400"}
             >
               Update Profile
             </Button>

@@ -4,6 +4,8 @@ import {
   Button,
   Card,
   CardBody,
+  Grid,
+  GridItem,
   Heading,
   Text,
 } from "@chakra-ui/react";
@@ -16,77 +18,53 @@ const Suggest: React.FC = () => {
           <Heading fontSize={"md"} color={"white"}>
             Suggested for you
           </Heading>
-          <Box my={3} display={"flex"}>
-            <Avatar
-              size={"md"}
-              name="Dan Abrahmov"
-              src="https://bit.ly/dan-abramov"
-            />
-            <Box ml={3}>
-              <Text fontSize={"sm"} color={"white"}>
-                Puan Maharani
-              </Text>
-              <Text fontSize={"sm"} color={"gray"}>
-                @Maharani
-              </Text>
-            </Box>
-
-            <Button
-              background={"gray"}
-              borderRadius={20}
-              ms={"65%"}
-              position={"absolute"}
+          <Box mt={3}>
+            <Grid
+              gap={5}
+              alignItems={"center"}
+              templateColumns="repeat(5, 1fr)"
             >
-              Following
-            </Button>
+              <GridItem colSpan={1}>
+                <Avatar name="Dan Abrahmov" src="https://bit.ly/dan-abramov" />
+              </GridItem>
+              <GridItem colSpan={3}>
+                <Heading as="h5" size="sm" color={"white"}>
+                  Fullname
+                </Heading>
+                <Text fontSize="sm" color={"white"}>
+                  @username
+                </Text>
+              </GridItem>
+              <GridItem colSpan={1} textAlign={"right"}>
+                <Button borderRadius={20} background={"gray.400"}>
+                  Follow
+                </Button>
+              </GridItem>
+            </Grid>
           </Box>
-          <Box my={3} display={"flex"}>
-            <Avatar
-              size={"md"}
-              name="Dan Abrahmov"
-              src="https://bit.ly/dan-abramov"
-            />
-            <Box ml={3}>
-              <Text fontSize={"sm"} color={"white"}>
-                Ganjar Pranowo
-              </Text>
-              <Text fontSize={"sm"} color={"gray"}>
-                @Bapaknya alam semesta
-              </Text>
-            </Box>
-
-            <Button
-              background={"gray"}
-              borderRadius={20}
-              ms={"65%"}
-              position={"absolute"}
+          <Box mt={2}>
+            <Grid
+              gap={5}
+              alignItems={"center"}
+              templateColumns="repeat(5, 1fr)"
             >
-              Follow
-            </Button>
-          </Box>
-          <Box my={3} display={"flex"}>
-            <Avatar
-              size={"md"}
-              name="Dan Abrahmov"
-              src="https://bit.ly/dan-abramov"
-            />
-            <Box ml={3}>
-              <Text fontSize={"sm"} color={"white"}>
-                Megawati sukarno putri
-              </Text>
-              <Text fontSize={"sm"} color={"gray"}>
-                @megawat
-              </Text>
-            </Box>
-
-            <Button
-              background={"gray"}
-              borderRadius={20}
-              ms={"65%"}
-              position={"absolute"}
-            >
-              Follow
-            </Button>
+              <GridItem colSpan={1}>
+                <Avatar name="Dan Abrahmov" src="https://bit.ly/dan-abramov" />
+              </GridItem>
+              <GridItem colSpan={3}>
+                <Heading as="h5" size="sm" color={"white"}>
+                  Fullname
+                </Heading>
+                <Text fontSize="sm" color={"white"}>
+                  @username
+                </Text>
+              </GridItem>
+              <GridItem colSpan={1} textAlign={"right"}>
+                <Button borderRadius={20} background={"gray.400"}>
+                  Following
+                </Button>
+              </GridItem>
+            </Grid>
           </Box>
         </CardBody>
       </Card>

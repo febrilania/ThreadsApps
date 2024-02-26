@@ -11,7 +11,7 @@ import {
 } from "@chakra-ui/react";
 import { GoHeartFill } from "react-icons/go";
 import { LiaComment } from "react-icons/lia";
-import { DataDummy } from "../interface/interface";
+import { DataDummy } from "../../../interface/interface";
 import React from "react";
 
 export default function ListThreads(props: DataDummy) {

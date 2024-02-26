@@ -8,9 +8,9 @@ import {
 } from "@chakra-ui/react";
 import { LuImagePlus } from "react-icons/lu";
 import React, { useEffect } from "react";
-import { DataDummy } from "../interface/interface";
-import ListThreads from "./ListThreads";
-import { api } from "../libs/api";
+import { DataDummy } from "../../../interface/interface";
+import ListThreads from "../component/ListThreads";
+import { api } from "../../../libs/api";
 
 const Main: React.FC = () => {
   const [threads, setThreads] = React.useState<DataDummy[]>([]);
