@@ -14,69 +14,8 @@ import {
 import { User } from "../entities/User";
 import UploadFile from "../middlewares/UploadFile";
 import cloudinary from "../libs/cloudinary";
-
-// const ThreadsData = [
-//   {
-//     id: 1,
-//     content: "halo bang, udah makan belum",
-//     image: "ubing.jpg",
-//     user: {
-//       id: 111,
-//       username: "ubing",
-//       name: "febrilania",
-//       profile_picture: "",
-//     },
-//     created_at: "7-2-1999",
-//     likes: 1004,
-//     replies: 8,
-//     islike: true,
-//   },
-//   {
-//     id: 2,
-//     content: "anjay gurinjay kura kura ninjay",
-//     image: "kura kura.jpg",
-//     user: {
-//       id: 112,
-//       username: "grutul",
-//       name: "Diaza lania",
-//       profile_picture: "",
-//     },
-//     created_at: "17-9-1912",
-//     likes: 1123,
-//     replies: 123,
-//     islike: true,
-//   },
-
-//   {
-//     id: 3,
-//     content: "cilok goreng, tahu pletok",
-//     image: "cilok.jpg",
-//     user: {
-//       id: 113,
-//       username: "kentung",
-//       name: "Renova Lania",
-//       profile_picture: "opop.jpg",
-//     },
-//     created_at: "17-9-1929",
-//     likes: 1143,
-//     replies: 124,
-//     islike: true,
-//   },
-// ];
-
-// export default new (class ThreadsService {
-//   async getAllData(): Promise<any[]> {
-//     return ThreadsData;
-//   }
-
-//   async getOneThreads(threadId: number): Promise<any> {
-//     const thread = ThreadsData.find((thread) => thread.id === threadId);
-//     if (!thread) {
-//       throw new error("threads not found");
-//     }
-//     return thread;
-//   }
-// })();
+import * as fs from "fs";
+import { promisify } from "util";
 
 class ThreadsService {
   private readonly threadRepository: Repository<Threads> =
@@ -98,6 +37,7 @@ class ThreadsService {
     }
   }
   async create(req: Request, res: Response) {
+    const deleteFiles = promisify(fs.unlink);
     try {
       const data = req.body;
       const userId = res.locals.loginSession.obj.id;
@@ -114,9 +54,7 @@ class ThreadsService {
           id: userId,
         },
       });
-      console.log(uploadImage);
-      console.log(value.content);
-
+      await deleteFiles(`src/uploads/${res.locals.filename}`);
       const threads = await this.threadRepository.save(obj);
       res.status(200).json(threads);
     } catch (error) {

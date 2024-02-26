@@ -1,9 +1,12 @@
 import Replies from "../components/Replies";
+import Layout from "../layout/Layout";
 
 const RepliesPage: React.FC = () => {
   return (
     <>
-      <Replies />
+      <Layout>
+        <Replies />
+      </Layout>
     </>
   );
 };

@@ -29,8 +29,8 @@ const FormPostReplies: React.FC = () => {
               borderRadius={10}
               icon={<LuImagePlus />}
             />
-            <Button colorScheme="teal" size="md" borderRadius={20}>
-              Post Reply
+            <Button colorScheme="teal" size="md" borderRadius={20} px={10}>
+              Post
             </Button>
           </Flex>
         </FormControl>
