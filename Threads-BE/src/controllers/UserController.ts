@@ -25,4 +25,8 @@ export default new (class UserController {
   async login(req: Request, res: Response) {
     UserService.login(req, res);
   }
+
+  async check(req: Request, res: Response) {
+    UserService.check(req, res);
+  }
 })();

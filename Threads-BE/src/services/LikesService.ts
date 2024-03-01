@@ -25,6 +25,7 @@ export default new (class LikesService {
           },
         },
       });
+      console.log(likeSelect);
       if (likeSelect) {
         await this.likesRepository.remove(likeSelect);
         return res.status(200).json({ message: "like removed" });

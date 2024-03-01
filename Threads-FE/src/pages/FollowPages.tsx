@@ -1,4 +1,4 @@
-import Follow from "../features/Follow/component/follow";
+import Follow from "../features/Follow/component/Follow";
 import Layout from "../layout/Layout";
 
 const FollowPages: React.FC = () => {

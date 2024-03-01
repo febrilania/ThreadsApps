@@ -28,9 +28,10 @@ routes.patch("/user/:id", UserController.update);
 routes.get("/user/:id", UserController.findOne);
 routes.delete("/user/:id", UserController.delete);
 routes.post("/login", UserController.login);
+routes.get("/check", authMiddlewares.Auth, UserController.check);
 
 //REPLIES
-routes.get("/replies/:id", repliesController.getReplies);
+routes.get("/replies/threads/:id", repliesController.getReplies);
 routes.post(
   "/replies/:id",
   authMiddlewares.Auth,
@@ -45,7 +46,7 @@ routes.post("/likes", authMiddlewares.Auth, LikesController.create);
 //fOLLOWS
 routes.post("/follow", authMiddlewares.Auth, FollowController.follow);
 routes.delete("/unfollow/:id", authMiddlewares.Auth, FollowController.unfollow);
-routes.get("/follower/:id", FollowController.getFOllower);
-routes.get("/following/:id", FollowController.getFOllowing);
+routes.get("/follower", authMiddlewares.Auth, FollowController.getFOllower);
+routes.get("/following", authMiddlewares.Auth, FollowController.getFOllowing);
 
 export default routes;

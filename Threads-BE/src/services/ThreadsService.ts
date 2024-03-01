@@ -3,7 +3,7 @@
 // import { threadId } from "worker_threads";
 // import { error } from "console";
 
-import { Repository } from "typeorm";
+import { Repository, TreeRepositoryUtils } from "typeorm";
 import { Threads } from "../entities/Threads";
 import { AppDataSource } from "../data-source";
 import { Request, Response } from "express";
@@ -39,22 +39,35 @@ class ThreadsService {
   async create(req: Request, res: Response) {
     const deleteFiles = promisify(fs.unlink);
     try {
-      const data = req.body;
+      const content = req.body.content;
       const userId = res.locals.loginSession.obj.id;
-      const uploadImage = res.locals.filename;
-      const { error, value } = createThreadsSchema.validate(data);
+      let image = null;
+      if (req.file) {
+        image = res.locals.filename;
+      }
+
+      const { error, value } = createThreadsSchema.validate({
+        content,
+        image,
+      });
       if (error) return res.status(400).json(error.details[0].message);
-      cloudinary.upload();
-      const cloudImage = await cloudinary.destination(uploadImage);
+
+      let isCloudinary = null;
+
+      if (image != null) {
+        cloudinary.upload();
+        const cloudImage = await cloudinary.destination(image);
+        isCloudinary = cloudImage.secure_url;
+        await deleteFiles(`src/uploads/${image}`);
+      }
 
       const obj = this.threadRepository.create({
         content: value.content,
-        image: cloudImage.secure_url,
+        image: isCloudinary,
         user: {
           id: userId,
         },
       });
-      await deleteFiles(`src/uploads/${res.locals.filename}`);
       const threads = await this.threadRepository.save(obj);
       res.status(200).json(threads);
     } catch (error) {
@@ -108,7 +121,10 @@ class ThreadsService {
   async findOne(req: Request, res: Response): Promise<Response> {
     try {
       const id = parseInt(req.params.id, 10);
-      const obj = await this.threadRepository.findOne({ where: { id } });
+      const obj = await this.threadRepository.findOne({
+        where: { id },
+        relations: ["user"],
+      });
       if (!obj) return res.status(500).json({ message: "id not found" });
       return res.status(200).json(obj);
     } catch (error) {

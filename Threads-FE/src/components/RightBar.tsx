@@ -10,8 +10,19 @@ import {
 import { Image } from "@chakra-ui/react";
 import Suggest from "./Suggest";
 import FootRight from "./FootRight";
+import { useUser } from "../features/Auth/hooks/useUser";
+import { useSelector } from "react-redux";
+import { rootState } from "../store/types/RootState";
+import React from "react";
 
-const RightBar: React.FC = () => {
+export function RightBar() {
+  const { getUserLogin } = useUser();
+  const user = useSelector((state: rootState) => state.auth);
+  React.useEffect(() => {
+    getUserLogin();
+  }, []);
+  console.log(user);
+
   return (
     <>
       <Box py={5}>
@@ -23,7 +34,7 @@ const RightBar: React.FC = () => {
             <Image
               h={"80px"}
               w={"100%"}
-              src="https://bit.ly/dan-abramov"
+              src={user.profile_picture}
               alt="Dan Abramov"
               borderRadius={10}
             />
@@ -31,7 +42,7 @@ const RightBar: React.FC = () => {
               ms={8}
               bottom={6}
               name="Dan Abrahmov"
-              src="https://bit.ly/dan-abramov"
+              src={user.profile_picture}
               border={"1px"}
               borderColor={"black"}
               position={"relative"}
@@ -46,13 +57,13 @@ const RightBar: React.FC = () => {
             </Button>
             <Box>
               <Text fontSize={"2xl"} color={"white"}>
-                Megalodon
+                {user.full_name}
               </Text>
               <Text fontSize={"sm"} color={"gray"}>
-                @megawati anake sukarno
+                @{user.username}
               </Text>
               <Text fontSize={"sm"} color={"white"}>
-                jangan kelalen coblos nomor telu, banteng nih bos
+                {user.bio}
               </Text>
               <Box display={"Flex"} gap={5} my={"5px"}>
                 <Text fontSize={"sm"} color={"white"}>
@@ -70,6 +81,4 @@ const RightBar: React.FC = () => {
       </Box>
     </>
   );
-};
-
-export default RightBar;
+}

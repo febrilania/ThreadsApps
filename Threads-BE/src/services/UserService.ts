@@ -142,9 +142,23 @@ export default new (class UserService {
         email: checkEmail.email,
       });
       const token = jwt.sign({ obj }, "apambuh", { expiresIn: "1h" });
-      return res.status(200).json({ message: "login succes", token });
+      return res.status(200).json({ message: "login succes", token, obj });
     } catch (error) {
       res.status(500).json(error);
+    }
+  }
+
+  async check(req: Request, res: Response): Promise<Response> {
+    try {
+      const userLogin = res.locals.loginSession.obj.id;
+      const user = await this.userRepository.findOne({
+        where: {
+          id: userLogin,
+        },
+      });
+      return res.status(200).json({ message: "token is valid", user });
+    } catch (error) {
+      return res.status(500).json(error);
     }
   }
 })();

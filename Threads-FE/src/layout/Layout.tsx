@@ -1,7 +1,11 @@
 import { Grid, GridItem } from "@chakra-ui/react";
 import Header from "../components/Header";
 import LeftBar from "../components/LeftBar";
-import RightBar from "../components/RightBar";
+import { RightBar } from "../components/RightBar";
+import { useUser } from "../features/Auth/hooks/useUser";
+import { useSelector } from "react-redux";
+import { rootState } from "../store/types/RootState";
+import React from "react";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -24,7 +28,6 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         </GridItem>
         <GridItem
           py={2}
-          px={{ base: 2 }}
           colSpan={{ base: 10, xl: 5 }}
           borderRight="1px"
           borderColor="gray"

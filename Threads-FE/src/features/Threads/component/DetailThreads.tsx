@@ -1,30 +1,31 @@
 import { Avatar, Box, Flex, Heading, Text, Image } from "@chakra-ui/react";
 import { GoHeartFill } from "react-icons/go";
 import { LiaComment } from "react-icons/lia";
+import { IThreads } from "../../../interface/Threads";
 
-const DetailThreads: React.FC = () => {
+export default function DetailThreads(props: IThreads) {
   return (
     <>
       <Box p={5}>
         <Flex gap={2} alignItems={"center"}>
-          <Avatar name="Dan Abrahmov" src="https://bit.ly/dan-abramov" />
+          <Avatar name="Dan Abrahmov" src={props.user?.profile_picture} />
           <Box>
             <Heading as="h5" size="sm">
-              Fullname
+              {props.user?.full_name}
             </Heading>
-            <Text fontSize="sm">@username</Text>
+            <Text fontSize="sm">@{props.user?.username}</Text>
           </Box>
         </Flex>
         <Box>
           <Text fontSize="md" my={3}>
-            This is Content Threads
+            {props.content}
           </Text>
           <Box boxSize="xs" background={"black"}>
-            <Image src="https://bit.ly/dan-abramov" alt="Dan Abramov" />
+            <Image src={props.image} />
           </Box>
         </Box>
         <Flex gap={1} my={1}>
-          <Text fontSize="sm">Post Time</Text>
+          <Text fontSize="sm">{props.created_at}</Text>
           <Text fontSize="sm">•</Text>
           <Text fontSize="sm">Date Time</Text>
         </Flex>
@@ -41,5 +42,4 @@ const DetailThreads: React.FC = () => {
       </Box>
     </>
   );
-};
-export default DetailThreads;
+}

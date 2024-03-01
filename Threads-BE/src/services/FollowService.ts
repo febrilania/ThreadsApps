@@ -55,7 +55,7 @@ export default new (class FollowService {
 
   async getFollower(req: Request, res: Response): Promise<Response> {
     try {
-      const userId = parseInt(req.params.id, 10);
+      const userId = res.locals.loginSession;
       const follower = await this.followRepository.find({
         where: {
           following: { id: userId },
@@ -72,7 +72,7 @@ export default new (class FollowService {
 
   async getFollowing(req: Request, res: Response): Promise<Response> {
     try {
-      const userId = parseInt(req.params.id, 10);
+      const userId = res.locals.loginSession;
       const following = await this.followRepository.find({
         where: {
           follower: { id: userId },
