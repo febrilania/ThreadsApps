@@ -21,4 +21,5 @@ export class Likes {
 
   @ManyToOne(() => Threads, (threads) => threads.likes)
   threads: Threads;
+  length: any;
 }

@@ -34,6 +34,8 @@ const Replies: React.FC = () => {
           image={thread.image}
           created_at={thread.created_at}
           user={thread.user}
+          repliesLength={thread.repliesLength}
+          likeLength={thread.likeLength}
         />
 
         <FormPostReplies />

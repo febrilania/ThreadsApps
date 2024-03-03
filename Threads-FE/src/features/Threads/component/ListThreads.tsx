@@ -5,7 +5,7 @@ import {
   Box,
   Text,
   Image,
-  Button,
+  IconButton,
 } from "@chakra-ui/react";
 import { GoHeartFill } from "react-icons/go";
 import { LiaComment } from "react-icons/lia";
@@ -29,8 +29,11 @@ export default function ListThreads(props: IThreads) {
               <Text fontSize="sm">@{user.username}</Text>
             </Box>
           </Flex>
-          <Box>
-            <Text fontSize="md" my={3}>
+          <Box
+            onClick={() => navigate(`/replies/threads/${props.id}`)}
+            cursor={"pointer"}
+          >
+            <Text fontSize="md" my={3} cursor={"ponter"}>
               {props.content}
             </Text>
             {props.image && (
@@ -41,19 +44,30 @@ export default function ListThreads(props: IThreads) {
           </Box>
           <Flex gap={1} my={1}>
             <Text fontSize="sm">{props.created_at}</Text>
-            <Text fontSize="sm">•</Text>
-            <Text fontSize="sm">Date Time</Text>
           </Flex>
           <Flex gap={5}>
-            <Flex gap={1} alignItems={"center"}>
-              <GoHeartFill />
-              <Text fontSize="sm">100</Text>
+            <Flex alignItems={"center"}>
+              <IconButton
+                variant="unstyled"
+                colorScheme="white"
+                aria-label="Call Sage"
+                fontSize="20px"
+                borderRadius={10}
+                icon={<GoHeartFill />}
+              />
+              <Text fontSize="sm">{props.likeLength}</Text>
             </Flex>
-            <Flex gap={1} alignItems={"center"}>
-              <Button onClick={() => navigate(`/replies/threads/${props.id}`)}>
-                <LiaComment />
-                <Text fontSize="sm">230 Comment</Text>
-              </Button>
+            <Flex alignItems={"center"}>
+              <IconButton
+                variant="unstyled"
+                onClick={() => navigate(`/replies/threads/${props.id}`)}
+                colorScheme="white"
+                aria-label="Call Sage"
+                fontSize="20px"
+                borderRadius={10}
+                icon={<LiaComment />}
+              />
+              <Text fontSize="sm">{props.repliesLength}</Text>
             </Flex>
           </Flex>
         </Box>

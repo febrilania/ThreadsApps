@@ -12,10 +12,10 @@ import {
   updateThreadsSchema,
 } from "../utils/validator/threadsValidation";
 import { User } from "../entities/User";
-import UploadFile from "../middlewares/UploadFile";
 import cloudinary from "../libs/cloudinary";
 import * as fs from "fs";
 import { promisify } from "util";
+import LikesService from "./LikesService";
 
 class ThreadsService {
   private readonly threadRepository: Repository<Threads> =
@@ -29,9 +29,27 @@ class ThreadsService {
         },
         relations: {
           user: true,
+          likes: true,
+          replies: true,
         },
       });
-      return res.status(200).json(threads);
+      let data = [];
+      let i = 0;
+      for (i; i < threads.length; i++) {
+        data.push({
+          id: threads[i].id,
+          content: threads[i].content,
+          image: threads[i].image,
+          created_at: threads[i].created_at,
+          user: threads[i].user,
+          like: threads[i].likes,
+          replies: threads[i].replies,
+          likeLength: threads[i].likes.length,
+          repliesLength: threads[i].replies.length,
+        });
+      }
+
+      return res.status(200).json(data);
     } catch (error) {
       console.log(error);
     }
@@ -55,7 +73,6 @@ class ThreadsService {
       let isCloudinary = null;
 
       if (image != null) {
-        cloudinary.upload();
         const cloudImage = await cloudinary.destination(image);
         isCloudinary = cloudImage.secure_url;
         await deleteFiles(`src/uploads/${image}`);
@@ -87,7 +104,7 @@ class ThreadsService {
       const uploadImage = res.locals.filename;
       const { error, value } = updateThreadsSchema.validate(data);
       if (error) return res.status(400).json(error.details[0].message);
-      cloudinary.upload();
+
       const cloudImage = await cloudinary.destination(uploadImage);
       if (data.content) {
         obj.content = value.content;
@@ -123,10 +140,25 @@ class ThreadsService {
       const id = parseInt(req.params.id, 10);
       const obj = await this.threadRepository.findOne({
         where: { id },
-        relations: ["user"],
+        relations: {
+          user: true,
+          replies: true,
+          likes: true,
+        },
       });
       if (!obj) return res.status(500).json({ message: "id not found" });
-      return res.status(200).json(obj);
+      const data = {
+        id: obj.id,
+        content: obj.content,
+        image: obj.image,
+        created_at: obj.created_at,
+        user: obj.user,
+        replies: obj.replies,
+        likes: obj.likes,
+        repliesLength: obj.replies.length,
+        likeLength: obj.likes.length,
+      };
+      return res.status(200).json(data);
     } catch (error) {
       res.status(500).json(error);
     }

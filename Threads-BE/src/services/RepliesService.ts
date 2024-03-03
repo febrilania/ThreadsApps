@@ -69,7 +69,6 @@ export default new (class RepliesService {
 
       let isCloudinary = null;
       if (image != null) {
-        cloudinary.upload();
         const cloudImage = await cloudinary.destination(value.image);
         isCloudinary = cloudImage.secure_url;
       }

@@ -1,7 +1,7 @@
 import { v2 as cloudinary } from "cloudinary";
 
 export default new (class CloudinaryConfig {
-  upload() {
+  config() {
     cloudinary.config({
       cloud_name: "dhlcorr0z",
       api_key: "767241247135225",

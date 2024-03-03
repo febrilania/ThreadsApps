@@ -15,7 +15,7 @@ routes.get("/threads/:id", ThreadsController.findOne);
 routes.post(
   "/threads",
   authMiddlewares.Auth,
-  UploadFile.upload("image"),
+  UploadFile("image"),
   ThreadsController.create
 );
 routes.delete("/threads/:id", authMiddlewares.Auth, ThreadsController.delete);
@@ -35,7 +35,7 @@ routes.get("/replies/threads/:id", repliesController.getReplies);
 routes.post(
   "/replies/:id",
   authMiddlewares.Auth,
-  UploadFile.upload("image"),
+  UploadFile("image"),
   repliesController.create
 );
 routes.delete("/replies/:id", authMiddlewares.Auth, repliesController.delete);

@@ -11,6 +11,7 @@ export function useThreads() {
     try {
       const response = await api.get(`/threads`);
       dispatch(GET_THREADS(response.data));
+      console.log(response);
     } catch (error) {
       throw error;
     }
@@ -20,6 +21,7 @@ export function useThreads() {
     try {
       const response = await api.get(`/threads/${id}`);
       dispatch(GET_THREAD(response.data));
+      console.log(response);
     } catch (error) {
       throw error;
     }

@@ -58,6 +58,8 @@ const Home: React.FC = () => {
                   image={data.image}
                   created_at={data.created_at}
                   user={data.user}
+                  repliesLength={data.repliesLength}
+                  likeLength={data.likeLength}
                 />
               </>
             );

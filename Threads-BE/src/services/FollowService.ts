@@ -60,7 +60,7 @@ export default new (class FollowService {
         where: {
           following: { id: userId },
         },
-        relations: ["follower"],
+        relations: ["following"],
       });
       return res
         .status(200)
@@ -77,7 +77,7 @@ export default new (class FollowService {
         where: {
           follower: { id: userId },
         },
-        relations: ["following"],
+        relations: ["follower"],
       });
       return res
         .status(200)

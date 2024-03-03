@@ -27,4 +27,5 @@ export class Replies {
 
   @ManyToOne(() => Threads, (threads) => threads.replies)
   threads: Threads;
+  length: any;
 }

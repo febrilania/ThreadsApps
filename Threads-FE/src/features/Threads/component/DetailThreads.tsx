@@ -20,23 +20,23 @@ export default function DetailThreads(props: IThreads) {
           <Text fontSize="md" my={3}>
             {props.content}
           </Text>
-          <Box boxSize="xs" background={"black"}>
-            <Image src={props.image} />
-          </Box>
+          {props.image && (
+            <Box boxSize="xs" background={"black"}>
+              <Image src={props.image} maxH={"300px"} maxWidth={"500px"} />
+            </Box>
+          )}
         </Box>
         <Flex gap={1} my={1}>
           <Text fontSize="sm">{props.created_at}</Text>
-          <Text fontSize="sm">•</Text>
-          <Text fontSize="sm">Date Time</Text>
         </Flex>
         <Flex gap={5}>
           <Flex gap={1} alignItems={"center"}>
             <GoHeartFill />
-            <Text fontSize="sm">100</Text>
+            <Text fontSize="sm">{props.likeLength}</Text>
           </Flex>
           <Flex gap={1} alignItems={"center"}>
             <LiaComment />
-            <Text fontSize="sm">230 Comment</Text>
+            <Text fontSize="sm">{props.repliesLength}</Text>
           </Flex>
         </Flex>
       </Box>

@@ -6,4 +6,6 @@ export interface IThreads {
   image: string;
   created_at: string;
   user: Iuser;
+  repliesLength: number;
+  likeLength: number;
 }

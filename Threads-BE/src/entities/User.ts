@@ -32,6 +32,9 @@ export class User {
   photo_profile: string;
 
   @Column({ nullable: true })
+  cover_photo: string;
+
+  @Column({ nullable: true })
   bio: string;
 
   @CreateDateColumn({ type: "timestamp" })

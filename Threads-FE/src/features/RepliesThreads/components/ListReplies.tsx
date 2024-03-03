@@ -28,10 +28,6 @@ export function ListReplies(props: IReplies) {
                 <GoHeartFill />
                 <Text fontSize="sm">100</Text>
               </Flex>
-              <Flex gap={1} alignItems={"center"}>
-                <LiaComment />
-                <Text fontSize="sm">230 Comment</Text>
-              </Flex>
             </Flex>
           </Box>
         </Flex>
