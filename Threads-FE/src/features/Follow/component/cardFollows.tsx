@@ -10,6 +10,7 @@ import {
 import { IFollows } from "../../../interface/Follows";
 
 export function CardFollows(props: IFollows) {
+  const user = { ...props.user };
   return (
     <Box>
       <Grid
@@ -19,14 +20,14 @@ export function CardFollows(props: IFollows) {
         templateColumns="repeat(10, 1fr)"
       >
         <GridItem colSpan={1}>
-          <Avatar name="Dan Abrahmov" src={props.profile_picture} />
+          <Avatar name="Dan Abrahmov" src={user.profile_picture} />
         </GridItem>
         <GridItem colSpan={7}>
           <Heading as="h5" size="sm">
-            {props.full_name}
+            {user.full_name}
           </Heading>
-          <Text fontSize="sm">@{props.username}</Text>
-          <Text fontSize="xs">{props.bio}</Text>
+          <Text fontSize="sm">@{user.username}</Text>
+          <Text fontSize="xs">{user.bio}</Text>
         </GridItem>
         <GridItem colSpan={2} textAlign={"right"}>
           <Button borderRadius={20} background={"gray.400"}>

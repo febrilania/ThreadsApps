@@ -1,10 +1,7 @@
+import { Iuser } from "./Auth";
+
 export interface IFollows {
   id: number;
-  user_id: number;
-  username: string;
-  full_name: string;
-  email: string;
-  profile_picture: string;
-  bio: string;
+  user: Iuser;
   is_followed: boolean;
 }

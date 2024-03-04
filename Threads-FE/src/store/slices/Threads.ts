@@ -31,6 +31,8 @@ const initialGetThread: {
       profile_picture: "",
       email: "",
     },
+    repliesLength: 0,
+    likeLength: 0,
   },
 };
 

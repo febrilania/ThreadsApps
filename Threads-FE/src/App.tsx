@@ -23,7 +23,9 @@ const App: React.FC = () => {
     }
   }
   useEffect(() => {
-    checkAuth();
+    if (localStorage.tokenn) {
+      checkAuth();
+    }
   }, []);
 
   return (

@@ -32,12 +32,7 @@ const Follow: React.FC = () => {
                 <>
                   <CardFollows
                     id={data.id}
-                    user_id={data.user_id}
-                    username={data.username}
-                    full_name={data.full_name}
-                    email={data.email}
-                    profile_picture={data.profile_picture}
-                    bio={data.bio}
+                    user={data.user}
                     is_followed={data.is_followed}
                   />
                 </>
