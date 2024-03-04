@@ -6,8 +6,8 @@ export default new (class UserController {
     UserService.find(req, res);
   }
 
-  async create(req: Request, res: Response) {
-    UserService.create(req, res);
+  async register(req: Request, res: Response) {
+    UserService.register(req, res);
   }
 
   async update(req: Request, res: Response) {

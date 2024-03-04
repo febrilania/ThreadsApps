@@ -8,7 +8,7 @@ import bodyParser = require("body-parser");
 AppDataSource.initialize()
   .then(async () => {
     const app = express();
-    const port = 3000;
+    const port = 5000;
 
     const corsConfig = {
       origin: "http://localhost:5173",

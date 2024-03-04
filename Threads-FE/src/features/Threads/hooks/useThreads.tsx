@@ -64,7 +64,7 @@ export function useThreads() {
 
       console.log("FormData:", formData); // Log FormData object
 
-      const response = await api.post("/threads", formData);
+      const response = await api.post("/thread", formData);
       console.log("Response:", response.data); // Log response from the server
 
       getThreads();

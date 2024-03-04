@@ -28,7 +28,7 @@ export default new (class UserService {
     }
   }
 
-  async create(req: Request, res: Response): Promise<Response> {
+  async register(req: Request, res: Response): Promise<Response> {
     try {
       const data = req.body;
       const { error, value } = createUserSchema.validate(data);

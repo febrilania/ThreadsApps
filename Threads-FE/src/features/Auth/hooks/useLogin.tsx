@@ -27,7 +27,7 @@ export function useLogin() {
 
   async function handleLogin() {
     try {
-      const response = await api.post("/login", form);
+      const response = await api.post("/auth/login", form);
       dispatch(AUTH_LOGIN(response.data));
       if (response) toast("Success", "Login Succesfully", "success");
       navigate("/");

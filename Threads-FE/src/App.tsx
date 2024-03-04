@@ -16,7 +16,7 @@ const App: React.FC = () => {
   async function checkAuth() {
     try {
       setAuthToken(localStorage.tokenn);
-      const response = await api.get("/check");
+      const response = await api.get("/auth/check");
       dispatch(AUTH_CHECK(response.data));
     } catch (error) {
       throw error;

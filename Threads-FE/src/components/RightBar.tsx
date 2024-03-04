@@ -16,12 +16,12 @@ import { rootState } from "../store/types/RootState";
 import React from "react";
 
 export function RightBar() {
-  const { getUserLogin } = useUser();
+  // const { getUserLogin } = useUser();
   const user = useSelector((state: rootState) => state.auth);
-  React.useEffect(() => {
-    getUserLogin();
-  }, []);
-  console.log(user);
+  // React.useEffect(() => {
+  //   getUserLogin();
+  // }, []);
+  // console.log(user);
 
   return (
     <>

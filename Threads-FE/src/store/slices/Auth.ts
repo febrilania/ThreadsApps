@@ -16,6 +16,8 @@ export const authSlice = createSlice({
   initialState: initialAuthState,
   reducers: {
     AUTH_LOGIN: (_, action) => {
+      console.log(action);
+      
       localStorage.setItem("tokenn", action.payload.token);
       setAuthToken(action.payload.token);
       const payload = action.payload;
