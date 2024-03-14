@@ -25,7 +25,7 @@ export function RightBar() {
 
   return (
     <>
-      <Box py={5}>
+      <Box py={5} position={"sticky"} top={"0"}>
         <Card background={"gray.800"}>
           <CardHeader>
             <Heading fontSize={"1xl"} color={"white"} mb={5}>
