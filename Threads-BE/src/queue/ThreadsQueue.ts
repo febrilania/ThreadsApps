@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import { createThreadsSchema } from "../utils/validator/threadsValidation";
 import RabbitMQConfig from "../libs/rabbitmq";
-import cloudinary from "../libs/cloudinary";
 
 export default new (class ThreadsQueue {
   async create(req: Request, res: Response): Promise<Response> {

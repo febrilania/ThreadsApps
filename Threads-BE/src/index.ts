@@ -4,6 +4,7 @@ import routes from "./routes";
 import * as cors from "cors";
 import "dotenv/config";
 import bodyParser = require("body-parser");
+import { redis } from "./libs/redis";
 
 AppDataSource.initialize()
   .then(async () => {
@@ -20,6 +21,9 @@ AppDataSource.initialize()
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: true }));
 
-    app.listen(port, () => console.log(`server is running in port ${port} `));
+    app.listen(port, async () => {
+      await redis.connect();
+      console.log(`server is running in port ${port} `);
+    });
   })
   .catch((error) => console.log(error));

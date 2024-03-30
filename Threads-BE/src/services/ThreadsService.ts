@@ -11,11 +11,10 @@ import {
   createThreadsSchema,
   updateThreadsSchema,
 } from "../utils/validator/threadsValidation";
-import { User } from "../entities/User";
 import cloudinary from "../libs/cloudinary";
 import * as fs from "fs";
 import { promisify } from "util";
-import LikesService from "./LikesService";
+import { redis } from "../libs/redis";
 
 class ThreadsService {
   private readonly threadRepository: Repository<Threads> =
@@ -23,33 +22,39 @@ class ThreadsService {
 
   async find(req: Request, res: Response) {
     try {
-      const threads = await this.threadRepository.find({
-        order: {
-          id: "DESC",
-        },
-        relations: {
-          user: true,
-          likes: true,
-          replies: true,
-        },
-      });
-      let data = [];
-      let i = 0;
-      for (i; i < threads.length; i++) {
-        data.push({
-          id: threads[i].id,
-          content: threads[i].content,
-          image: threads[i].image,
-          created_at: threads[i].created_at,
-          user: threads[i].user,
-          like: threads[i].likes,
-          replies: threads[i].replies,
-          likeLength: threads[i].likes.length,
-          repliesLength: threads[i].replies.length,
+      let dataThreads = await redis.get("treads");
+      if (!dataThreads) {
+        const threads = await this.threadRepository.find({
+          order: {
+            id: "DESC",
+          },
+          relations: {
+            user: true,
+            likes: true,
+            replies: true,
+          },
         });
+        let data = [];
+        let i = 0;
+        for (i; i < threads.length; i++) {
+          data.push({
+            id: threads[i].id,
+            content: threads[i].content,
+            image: threads[i].image,
+            created_at: threads[i].created_at,
+            user: threads[i].user,
+            like: threads[i].likes,
+            replies: threads[i].replies,
+            likeLength: threads[i].likes.length,
+            repliesLength: threads[i].replies.length,
+          });
+        }
+        const stringDataDb = JSON.stringify(data);
+        dataThreads = stringDataDb;
+        await redis.set("threads", dataThreads);
       }
 
-      return res.status(200).json(data);
+      return res.status(200).json(JSON.parse(dataThreads));
     } catch (error) {
       return res.status(500).json(error.message);
     }

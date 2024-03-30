@@ -10,6 +10,7 @@ import {
 import bcrypt = require("bcrypt");
 
 import jwt = require("jsonwebtoken");
+import { redis } from "../libs/redis";
 
 export default new (class UserService {
   private readonly userRepository: Repository<User> =
@@ -17,14 +18,24 @@ export default new (class UserService {
 
   async find(req: Request, res: Response): Promise<Response> {
     try {
-      const user = await this.userRepository.find({
-        order: {
-          id: "DESC",
-        },
-      });
-      return res.status(200).json(user);
+      let data = await redis.get("users");
+      console.log(data);
+
+      if (!data) {
+        const user = await this.userRepository.find({
+          order: {
+            id: "DESC",
+          },
+        });
+
+        const stringDataDb = JSON.stringify(user);
+        data = stringDataDb;
+
+        await redis.set("users", data);
+      }
+      return res.status(200).json(JSON.parse(data));
     } catch (error) {
-      return res.status(500).json(error);
+      return res.status(500).json(error.message);
     }
   }
 
