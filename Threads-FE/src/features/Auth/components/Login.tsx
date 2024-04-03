@@ -10,12 +10,10 @@ import {
   Link,
 } from "@chakra-ui/react";
 import { useLogin } from "../hooks/useLogin";
-import { useSelector } from "react-redux";
-import { rootState } from "../../../store/types/RootState";
+import { useAppSelector } from "../../../store/RootReducer";
 
 const Login: React.FC = () => {
-  const auth = useSelector((state: rootState) => state.auth);
-  console.log(auth);
+  const auth = useAppSelector((state) => state.auth);
   const { handleLogin, handleChange } = useLogin();
   return (
     <>

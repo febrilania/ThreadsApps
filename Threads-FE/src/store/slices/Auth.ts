@@ -8,7 +8,8 @@ const initialAuthState: Iuser = {
   full_name: "",
   email: "",
   bio: "",
-  profile_picture: "",
+  photo_profile: "",
+  cover_photo: "",
 };
 
 export const authSlice = createSlice({
@@ -58,7 +59,7 @@ export const authSlice = createSlice({
     //   return user;
     // },
     AUTH_CHECK: (state, action) => {
-      const { id, email, full_name, username, bio, profile_picture } =
+      const { id, email, full_name, username, bio, photo_profile } =
         action.payload.user;
 
       state.id = id;
@@ -66,7 +67,7 @@ export const authSlice = createSlice({
       state.full_name = full_name;
       state.username = username;
       state.bio = bio;
-      state.profile_picture = profile_picture;
+      state.photo_profile = photo_profile;
     },
     // AUTH_LOGOUT: (_, action) => {
 

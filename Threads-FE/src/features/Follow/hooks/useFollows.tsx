@@ -14,7 +14,17 @@ export function useFollows() {
     }
   }
 
+  async function getFollowing() {
+    try {
+      const response = await api.get("/following");
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   return {
     getFollower,
+    getFollowing,
   };
 }

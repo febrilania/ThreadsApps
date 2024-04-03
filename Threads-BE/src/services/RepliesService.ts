@@ -29,6 +29,9 @@ export default new (class RepliesService {
     try {
       const id: number = parseInt(req.params.id, 10);
       const response = await this.repliesRepository.find({
+        order: {
+          id: "DESC",
+        },
         where: {
           threads: { id: id },
         },
@@ -69,7 +72,7 @@ export default new (class RepliesService {
 
       let isCloudinary = null;
       if (image != null) {
-        const cloudImage = await cloudinary.destination(value.image);
+        const cloudImage = await cloudinary.destination(image); // Menggunakan variabel 'image' untuk nama file
         isCloudinary = cloudImage.secure_url;
       }
 
@@ -89,7 +92,7 @@ export default new (class RepliesService {
       res.status(200).json({ message: "data berhasil input", data: reply });
     } catch (error) {
       console.error(error, "error");
-      return res.status(500).json(error);
+      return res.status(500).json(error.message);
     }
   }
 })();

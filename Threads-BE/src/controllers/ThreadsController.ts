@@ -7,8 +7,8 @@ export default new (class ThreadsController {
     ThreadsService.find(req, res);
   }
   async create(req: Request, res: Response) {
-    // ThreadsService.create(req, res);
-    ThreadsQueue.create(req, res);
+    ThreadsService.create(req, res);
+    // ThreadsQueue.create(req, res);
   }
   async delete(req: Request, res: Response) {
     ThreadsService.delete(req, res);

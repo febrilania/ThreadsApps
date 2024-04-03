@@ -3,22 +3,27 @@ import ListThreads from "../features/Threads/component/ListThreads";
 import { useThreads } from "../features/Threads/hooks/useThreads";
 import Layout from "../layout/Layout";
 import { IThreads } from "../interface/Threads";
-import React from "react";
-import { useSelector } from "react-redux";
-import { rootState } from "../store/types/RootState";
+import React, { useRef } from "react";
 import FormPostThread from "../features/Threads/component/FormPostThread";
+import { useAppSelector } from "../store/RootReducer";
 
 const Home: React.FC = () => {
   const { getThreads } = useThreads();
-  const threads = useSelector((state: rootState) => state.threads.getThreads);
+  const threads = useAppSelector((state) => state.threads.getThreads);
+  const formPostThreadRef = useRef<HTMLDivElement>(null);
   React.useEffect(() => {
     getThreads();
-  }, []);
+  }, [threads]);
   return (
     <>
       <Layout>
         <Box>
-          <FormPostThread />
+          <Box
+            ref={formPostThreadRef}
+            style={{ position: "sticky", top: 0, zIndex: 9999 }}
+          >
+            <FormPostThread />
+          </Box>
           {threads?.map((data: IThreads) => {
             return (
               <>
@@ -30,6 +35,7 @@ const Home: React.FC = () => {
                   user={data.user}
                   repliesLength={data.repliesLength}
                   likeLength={data.likeLength}
+                  like={data.like}
                 />
               </>
             );

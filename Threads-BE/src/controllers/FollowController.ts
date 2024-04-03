@@ -14,4 +14,7 @@ export default new (class FollowController {
   async getFOllowing(req: Request, res: Response) {
     FollowService.getFollowing(req, res);
   }
+  async checkFollow(req: Request, res: Response) {
+    FollowService.checkFollow(req, res);
+  }
 })();

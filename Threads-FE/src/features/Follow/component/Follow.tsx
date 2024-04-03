@@ -1,50 +1,69 @@
 import { Tabs, TabList, Tab, TabPanels, TabPanel } from "@chakra-ui/react";
 import { CardFollows } from "./cardFollows";
-import { useFollows } from "../hooks/useFollows";
-import { useSelector } from "react-redux";
-import { rootState } from "../../../store/types/RootState";
 import React from "react";
-import { IFollows } from "../../../interface/Follows";
+import { IFollowings, IFollows } from "../../../interface/Follows";
+import { getFollower, getFollowing } from "../../../store/async/follows";
+import { useAppDispatch, useAppSelector } from "../../../store/RootReducer";
+import { CardFollowing } from "./CardFollowing";
 
 const Follow: React.FC = () => {
-  const { getFollower } = useFollows();
-  const followers = useSelector(
-    (state: rootState) => state.follower.initialFollower
+  const followers = useAppSelector((state) => state.follower.initialFollower);
+  const followings = useAppSelector(
+    (state) => state.following.initialFollowing
   );
 
-  console.log(followers);
-
+  const dispatch = useAppDispatch();
   React.useEffect(() => {
-    getFollower();
-  }, []);
+    dispatch(getFollower());
+    dispatch(getFollowing());
+  }, []); // No need to include getFollower in dependency array
 
+  console.log("ini followers", followers);
+  console.log("ini data following di follow", followings);
   return (
-    <>
-      <Tabs isFitted>
-        <TabList mb="1em">
-          <Tab>Followers</Tab>
-          <Tab>Followings</Tab>
-        </TabList>
-        <TabPanels>
-          <TabPanel>
-            {followers.map((data: IFollows) => {
-              return (
-                <>
-                  <CardFollows
-                    id={data.id}
-                    user={data.user}
-                    is_followed={data.is_followed}
-                  />
-                </>
-              );
-            })}
-          </TabPanel>
-          <TabPanel>
-            <p>Followings!</p>
-          </TabPanel>
-        </TabPanels>
-      </Tabs>
-    </>
+    <Tabs isFitted>
+      <TabList mb="1em">
+        <Tab>Followers</Tab>
+        <Tab>Followings</Tab>
+      </TabList>
+      <TabPanels>
+        <TabPanel>
+          {followers ? (
+            Array.isArray(followers) ? (
+              followers.map((data: IFollows) => (
+                <CardFollows
+                  key={data.id} // Ensure each CardFollows component has a unique key prop
+                  data={data}
+                  userId={data.follower.id}
+                />
+              ))
+            ) : (
+              <p>Loading followers...</p>
+            )
+          ) : (
+            <p>No follower...</p>
+          )}
+        </TabPanel>
+        <TabPanel>
+          {followings ? (
+            Array.isArray(followings) ? (
+              followings.map((data: IFollowings) => (
+                <CardFollowing
+                  key={data.id}
+                  data={data}
+                  userId={data.following.id}
+                />
+              ))
+            ) : (
+              <p>Loading followings...</p>
+            )
+          ) : (
+            <p>No followings...</p>
+          )}
+        </TabPanel>
+      </TabPanels>
+    </Tabs>
   );
 };
+
 export default Follow;

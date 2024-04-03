@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { IThreads } from "../../interface/Threads";
+import { getThread } from "../async/threads";
 
 const getThreads: IThreads[] = [];
 const initialState = {
@@ -28,7 +29,7 @@ const initialGetThread: {
       id: 0,
       username: "",
       full_name: "",
-      profile_picture: "",
+      photo_profile: "",
       email: "",
     },
     repliesLength: 0,
@@ -43,5 +44,10 @@ export const getThreadSlice = createSlice({
     GET_THREAD(state, action) {
       state.data = action.payload;
     },
+  },
+  extraReducers(builder) {
+    builder.addCase(getThread.fulfilled, (state, action) => {
+      state.data = action.payload;
+    });
   },
 });

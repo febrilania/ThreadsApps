@@ -50,5 +50,10 @@ routes.post("/follow", authMiddlewares.Auth, FollowController.follow);
 routes.delete("/unfollow/:id", authMiddlewares.Auth, FollowController.unfollow);
 routes.get("/follower", authMiddlewares.Auth, FollowController.getFOllower);
 routes.get("/following", authMiddlewares.Auth, FollowController.getFOllowing);
+routes.get(
+  "/follow/check/:id",
+  authMiddlewares.Auth,
+  FollowController.checkFollow
+);
 
 export default routes;

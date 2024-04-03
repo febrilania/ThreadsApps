@@ -10,6 +10,7 @@ import { api, setAuthToken } from "./libs/api";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { AUTH_CHECK } from "./store/RootReducer";
+import ProfilePages from "./pages/ProfilePages";
 
 const App: React.FC = () => {
   const dispatch = useDispatch();
@@ -38,6 +39,7 @@ const App: React.FC = () => {
           <Route path="/replies/threads/:id" element={<RepliesPage />}></Route>
           <Route path="/search" element={<Search />}></Route>
           <Route path="/follow" element={<FollowPages />}></Route>
+          <Route path="/profile" element={<ProfilePages />}></Route>
         </Routes>
       </BrowserRouter>
     </>

@@ -8,7 +8,6 @@ import {
   updateUserSchema,
 } from "../utils/validator/UserValidation";
 import bcrypt = require("bcrypt");
-
 import jwt = require("jsonwebtoken");
 import { redis } from "../libs/redis";
 
@@ -19,7 +18,7 @@ export default new (class UserService {
   async find(req: Request, res: Response): Promise<Response> {
     try {
       let data = await redis.get("users");
-      console.log(data);
+      console.log("ini user", data);
 
       if (!data) {
         const user = await this.userRepository.find({
@@ -27,10 +26,8 @@ export default new (class UserService {
             id: "DESC",
           },
         });
-
         const stringDataDb = JSON.stringify(user);
         data = stringDataDb;
-
         await redis.set("users", data);
       }
       return res.status(200).json(JSON.parse(data));
@@ -44,6 +41,7 @@ export default new (class UserService {
       const data = req.body;
       const { error, value } = createUserSchema.validate(data);
       if (error) return res.status(400).json(error.details[0].message);
+
       const hashPassword = await bcrypt.hash(value.password, 10);
 
       const obj = this.userRepository.create({
@@ -52,6 +50,7 @@ export default new (class UserService {
         email: value.email,
         password: hashPassword,
       });
+
       const emailRequire = await this.userRepository.findOne({
         where: {
           email: value.email,
@@ -63,6 +62,13 @@ export default new (class UserService {
         return res.status(400).json({ message: "email/username sudah ada" });
 
       const user = await this.userRepository.save(obj);
+
+      // Update data pengguna di Redis setelah berhasil didaftarkan
+      const usersInRedis = await redis.get("users");
+      let usersData = usersInRedis ? JSON.parse(usersInRedis) : [];
+      usersData.push(user);
+      await redis.set("users", JSON.stringify(usersData));
+
       return res.status(200).json(user);
     } catch (error) {
       res.status(500).json(error);

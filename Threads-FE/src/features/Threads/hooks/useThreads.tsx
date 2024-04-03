@@ -58,7 +58,11 @@ export function useThreads() {
     try {
       const formData = new FormData();
       formData.append("content", data.content);
-      formData.append("image", data.image as File);
+
+      // Memeriksa apakah pengguna telah memilih gambar
+      if (data.image) {
+        formData.append("image", data.image);
+      }
 
       console.log("FormData:", formData); // Log FormData object
 
@@ -66,6 +70,13 @@ export function useThreads() {
       console.log("Response:", response.data); // Log response from the server
 
       getThreads();
+
+      // Reset form data after successful post
+      setData({
+        content: "",
+        image: null,
+      });
+      alert("threads posted successfully!");
     } catch (error) {
       console.error("Error posting thread:", error);
       throw error;

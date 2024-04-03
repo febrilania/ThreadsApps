@@ -1,6 +1,11 @@
 import { v2 as cloudinary } from "cloudinary";
 
-export default new (class CloudinaryConfig {
+class CloudinaryConfig {
+  constructor() {
+    // Panggil metode config() saat kelas diinisialisasi
+    this.config();
+  }
+
   config() {
     cloudinary.config({
       cloud_name: "dhlcorr0z",
@@ -16,4 +21,6 @@ export default new (class CloudinaryConfig {
       throw error;
     }
   }
-})();
+}
+
+export default new CloudinaryConfig();

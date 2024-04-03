@@ -1,14 +1,18 @@
 import { Avatar, Box, Flex, Heading, Text, Image } from "@chakra-ui/react";
-import { GoHeartFill } from "react-icons/go";
 import { LiaComment } from "react-icons/lia";
 import { IThreads } from "../../../interface/Threads";
+import { format } from "date-fns";
+import Like from "../hooks/Like";
 
 export default function DetailThreads(props: IThreads) {
   return (
     <>
       <Box p={5}>
         <Flex gap={2} alignItems={"center"}>
-          <Avatar name="Dan Abrahmov" src={props.user?.profile_picture} />
+          <Avatar
+            name={props.user?.full_name}
+            src={props.user?.photo_profile}
+          />
           <Box>
             <Heading as="h5" size="sm">
               {props.user?.full_name}
@@ -27,11 +31,15 @@ export default function DetailThreads(props: IThreads) {
           )}
         </Box>
         <Flex gap={1} my={1}>
-          <Text fontSize="sm">{props.created_at}</Text>
+          <Text fontSize="sm">
+            {props.created_at
+              ? format(new Date(props.created_at), "HH:mm - dd MMMM yyyy")
+              : "No date"}
+          </Text>
         </Flex>
         <Flex gap={5}>
           <Flex gap={1} alignItems={"center"}>
-            <GoHeartFill />
+            <Like postId={props.id} userId={props.user?.id || 0} />
             <Text fontSize="sm">{props.likeLength}</Text>
           </Flex>
           <Flex gap={1} alignItems={"center"}>

@@ -8,6 +8,7 @@ export interface IThreads {
   user?: Iuser;
   repliesLength?: number;
   likeLength?: number;
+  like?: Boolean;
 }
 
 export type IThreadPost = {

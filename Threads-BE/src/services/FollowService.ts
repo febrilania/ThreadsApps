@@ -12,17 +12,33 @@ export default new (class FollowService {
       const data = req.body;
       const { value, error } = followSchema.validate(data);
       value.follower = res.locals.loginSession.obj.id;
+
       if (error) return res.status(400).json(error.details[0].message);
 
       if (value.following === value.follower) {
         return res
-          .status(404)
-          .json({ message: "tidak bisa memfollow diri sendiri" });
+          .status(400)
+          .json({ message: "Tidak bisa memfollow diri sendiri." });
       }
+
+      // Check if the user is already following the target account
+      // const existingFollow = await this.followRepository.findOne({
+      //   where: {
+      //     follower: value.follower,
+      //     following: value.following,
+      //   },
+      // });
+
+      // if (existingFollow) {
+      //   return res.status(400).json({ message: "Already Followed." });
+      // }
+
+      // If not already following, proceed to create and save the follow relationship
       const obj = this.followRepository.create({
         follower: value.follower,
         following: value.following,
       });
+
       const response = await this.followRepository.save(obj);
       return res.status(200).json(response);
     } catch (error) {
@@ -60,7 +76,7 @@ export default new (class FollowService {
         where: {
           following: { id: userId },
         },
-        relations: ["following"],
+        relations: ["follower"],
       });
       return res
         .status(200)
@@ -77,13 +93,35 @@ export default new (class FollowService {
         where: {
           follower: { id: userId },
         },
-        relations: ["follower"],
+        relations: ["following"],
       });
       return res
         .status(200)
         .json({ message: "success get following", data: following });
     } catch (error) {
       return res.status(500).json(error.message);
+    }
+  }
+
+  async checkFollow(req: Request, res: Response): Promise<Response> {
+    try {
+      const followerId = res.locals.loginSession.obj.id;
+      const followingId: number = parseInt(req.params.id, 10);
+
+      const followRecord = await this.followRepository.findOne({
+        where: {
+          follower: followerId,
+          following: { id: followingId },
+        },
+      });
+
+      if (followRecord) {
+        return res.status(200).json({ isFollowing: true });
+      } else {
+        return res.status(200).json({ isFollowing: false });
+      }
+    } catch (error) {
+      return res.status(500).json({ error });
     }
   }
 })();
